@@ -1,18 +1,16 @@
+require('dotenv').config()
 const express = require("express");
 const mongoose = require("mongoose");
 const route = require("./route/route");
 
 const app = express();
 app.use(express.json());
-const port = 3000;
 
 mongoose.set("strictQuery", true);
 mongoose
   .connect(
-    "mongodb+srv://prince9871:BZjeaWxY1uTLCefz@cluster0.pelsn1m.mongodb.net/a2dDatabase",
-    {
-      useNewUrlParser: true,
-    }
+    process.env.DB,
+   
   )
   .then(() => console.log("MongoDB Running"))
   .catch((err) => console.log(err));
@@ -23,6 +21,6 @@ app.use("/*", function (req, res) {
   return res.status(400).send({ status: false, msg: "invalid routing path" });
 });
 
-app.listen(port, () => {
-  console.log("Express Running on " + port);
+app.listen(process.env.port||3000, () => {
+  console.log("Express Running on " + process.env.port || 3000);
 });
